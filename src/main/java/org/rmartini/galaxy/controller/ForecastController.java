@@ -1,5 +1,6 @@
 package org.rmartini.galaxy.controller;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import org.rmartini.galaxy.entity.Forecast;
 import org.rmartini.galaxy.entity.PeakRain;
 import org.rmartini.galaxy.entity.Period;
@@ -17,6 +18,20 @@ public class ForecastController {
 
     public ForecastController(ForecastRepository repository) {
         this.repository = repository;
+    }
+
+    /**
+     * Show as string how many endpoints are available in the application
+     * @return String
+     */
+    @GetMapping("/")
+    String initial() {
+        return "<strong>Endpoints available:</strong><br/>" +
+                "- https://galaxy-forecast-rmartini.herokuapp.com/weather/{day}<br/>" +
+                "&nbsp; &nbsp; &nbsp; - <i>Param {day} must be between 0 and 3650</i> <br/><br/>" +
+                "- https://galaxy-forecast-rmartini.herokuapp.com/periods/{weather}<br/>" +
+                "&nbsp; &nbsp; &nbsp; - <i>Param {weather} values allowed (DROUGHT, RAIN, SUNNY, OPTIMUM)</i> <br/><br/>" +
+                "- https://galaxy-forecast-rmartini.herokuapp.com/peakrain";
     }
 
     /**
