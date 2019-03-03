@@ -2,7 +2,6 @@ package org.rmartini.galaxy;
 
 import org.rmartini.galaxy.entity.Planet;
 import org.rmartini.galaxy.repository.ForecastRepository;
-import org.rmartini.galaxy.service.ForecastService;
 import org.rmartini.galaxy.service.ForecastServiceImpl;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

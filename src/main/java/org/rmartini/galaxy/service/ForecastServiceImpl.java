@@ -1,13 +1,18 @@
 package org.rmartini.galaxy.service;
 
-import org.rmartini.galaxy.entity.Forecast;
-import org.rmartini.galaxy.entity.Planet;
-import org.rmartini.galaxy.entity.Point;
+import org.rmartini.galaxy.entity.*;
 import org.rmartini.galaxy.repository.ForecastRepository;
 import org.rmartini.galaxy.util.WeatherKind;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
 public class ForecastServiceImpl implements ForecastService {
 
+    @Autowired
     private ForecastRepository repository;
 
     private Planet ferengi;
@@ -17,6 +22,8 @@ public class ForecastServiceImpl implements ForecastService {
 
     private final int cycle = 365;
     private final int years = 10;
+
+    public ForecastServiceImpl() { }
 
     public ForecastServiceImpl(ForecastRepository repository, Planet ferengi, Planet betasoide, Planet vulcano) {
         this.repository = repository;
@@ -34,6 +41,31 @@ public class ForecastServiceImpl implements ForecastService {
         for(int day = 0; day < (cycle * years); day++) {
             this.repository.save(getWeather(day));
         }
+    }
+
+    @Override
+    public Forecast getWeatherDay(int day) {
+        return repository.findByDay(day);
+    }
+
+    @Override
+    public Period getPeriodByWeather(String weather) {
+        List<Forecast> forecasts = repository.findByWeather(weather.toUpperCase());
+        return new Period(weather.toUpperCase(), forecasts.size());
+    }
+
+    @Override
+    public PeakRain getPeakRain() {
+        Forecast forecast = repository.findFirstByOrderByPerimeterDesc();
+        List<Forecast> peaks = repository.findByPerimeter(forecast.getPerimeter());
+
+        List<Integer> days = new ArrayList<>();
+
+        for (Forecast weather : peaks) {
+            days.add(weather.getDay());
+        }
+
+        return new PeakRain(peaks.size(), days);
     }
 
     /**
@@ -70,7 +102,9 @@ public class ForecastServiceImpl implements ForecastService {
         return weather;
     }
 
+    //********************************
     // Util Formulas
+    //********************************
 
     /**
      * A function that determines if three points are aligned

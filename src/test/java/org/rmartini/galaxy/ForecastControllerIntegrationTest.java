@@ -2,11 +2,12 @@ package org.rmartini.galaxy;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.rmartini.galaxy.controller.ForecastController;
 import org.rmartini.galaxy.entity.Forecast;
 import org.rmartini.galaxy.entity.PeakRain;
+import org.rmartini.galaxy.entity.Period;
 import org.rmartini.galaxy.repository.ForecastRepository;
+import org.rmartini.galaxy.service.ForecastService;
 import org.rmartini.galaxy.util.WeatherKind;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -35,12 +36,15 @@ public class ForecastControllerIntegrationTest {
     @MockBean
     private ForecastRepository forecastRepository;
 
+    @MockBean
+    private ForecastService forecastService;
+
     @Test
     public void testGetWeatherByDay() throws Exception {
 
         int day = 360;
 
-        when(forecastRepository.findByDay(day)).thenReturn(new Forecast(day, WeatherKind.DROUGHT.getKind(), 0));
+        when(forecastService.getWeatherDay(day)).thenReturn(new Forecast(day, WeatherKind.DROUGHT.getKind(), 0));
 
         this.mockMvc.perform(get("/weather/{id}", day))
                     .andDo(print())
@@ -52,14 +56,25 @@ public class ForecastControllerIntegrationTest {
     @Test
     public void testGetForecastByWeather() throws Exception {
 
-        when(forecastRepository.findByWeather(WeatherKind.SUNNY.getKind()))
-                .thenReturn(Arrays.asList(new Forecast(25, WeatherKind.SUNNY.getKind(), 10),
-                                          new Forecast(70, WeatherKind.SUNNY.getKind(), 20)));
+        when(forecastService.getPeriodByWeather(WeatherKind.SUNNY.getKind()))
+                .thenReturn(new Period(WeatherKind.SUNNY.getKind(), 2));
 
         this.mockMvc.perform(get("/periods/{weather}", WeatherKind.SUNNY.getKind()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json("{ weather: SUNNY, quantity: 2 }"));
+
+    }
+
+    @Test
+    public void testGetPeakRain() throws Exception {
+
+        when(forecastService.getPeakRain()).thenReturn(new PeakRain(2, new ArrayList<>(Arrays.asList(1,2))));
+
+        this.mockMvc.perform(get("/peakrain"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(content().json("{ quantity: 2, days: [1, 2] }"));
 
     }
 
