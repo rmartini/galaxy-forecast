@@ -4,7 +4,7 @@ public enum WeatherKind {
 
     DROUGHT ("DROUGHT"),
     RAIN    ("RAIN"),
-    SUNNY   ("SUNNY"),
+    UNKNOWN   ("UNKNOWN"),
     OPTIMUM ("OPTIMUM");
 
     private final String kind;
@@ -20,7 +20,7 @@ public enum WeatherKind {
     public static boolean contains(String kind){
         if(kind.equalsIgnoreCase(DROUGHT.kind) ||
                 kind.equalsIgnoreCase(RAIN.kind) ||
-                kind.equalsIgnoreCase(SUNNY.kind) ||
+                kind.equalsIgnoreCase(UNKNOWN.kind) ||
                 kind.equalsIgnoreCase(OPTIMUM.kind)) {
             return true;
         }

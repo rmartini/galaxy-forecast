@@ -56,13 +56,13 @@ public class ForecastControllerIntegrationTest {
     @Test
     public void testGetForecastByWeather() throws Exception {
 
-        when(forecastService.getPeriodByWeather(WeatherKind.SUNNY.getKind()))
-                .thenReturn(new Period(WeatherKind.SUNNY.getKind(), 2));
+        when(forecastService.getPeriodByWeather(WeatherKind.RAIN.getKind()))
+                .thenReturn(new Period(WeatherKind.RAIN.getKind(), 2));
 
-        this.mockMvc.perform(get("/periods/{weather}", WeatherKind.SUNNY.getKind()))
+        this.mockMvc.perform(get("/periods/{weather}", WeatherKind.RAIN.getKind()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().json("{ weather: SUNNY, quantity: 2 }"));
+                .andExpect(content().json("{ weather: RAIN, quantity: 2 }"));
 
     }
 

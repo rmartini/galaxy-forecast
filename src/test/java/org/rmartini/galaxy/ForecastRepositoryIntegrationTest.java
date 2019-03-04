@@ -27,8 +27,7 @@ public class ForecastRepositoryIntegrationTest {
         this.forecastRepository.save(new Forecast(360, WeatherKind.DROUGHT.getKind(), 0));
         this.forecastRepository.save(new Forecast(25, WeatherKind.RAIN.getKind(), 10));
         this.forecastRepository.save(new Forecast(70, WeatherKind.RAIN.getKind(), 20));
-        this.forecastRepository.save(new Forecast(50, WeatherKind.SUNNY.getKind(), 0));
-        this.forecastRepository.save(new Forecast(10, WeatherKind.SUNNY.getKind(), 0));
+        this.forecastRepository.save(new Forecast(50, WeatherKind.UNKNOWN.getKind(), 0));
     }
 
     @Test
@@ -40,7 +39,7 @@ public class ForecastRepositoryIntegrationTest {
 
     @Test
     public void testFindByWeather() {
-        List<Forecast> forecasts = this.forecastRepository.findByWeather(WeatherKind.SUNNY.getKind());
+        List<Forecast> forecasts = this.forecastRepository.findByWeather(WeatherKind.RAIN.getKind());
         assertEquals(forecasts.size(), 2);
     }
 

@@ -93,8 +93,8 @@ public class ForecastServiceImpl implements ForecastService {
             if (isSunInsideTriangle(day)) {
                 weather = new Forecast(day, WeatherKind.RAIN.getKind(), getPerimeter(p1, p2, p3));
             } else {
-                //The Sun is not inside the triangle area so the weather is sunny
-                weather = new Forecast(day, WeatherKind.SUNNY.getKind(), 0);
+                //The Sun is not inside the triangle area so the weather is unknown
+                weather = new Forecast(day, WeatherKind.UNKNOWN.getKind(), 0);
             }
 
         }

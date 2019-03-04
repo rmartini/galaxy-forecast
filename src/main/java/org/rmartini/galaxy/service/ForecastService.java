@@ -21,7 +21,7 @@ public interface ForecastService extends Serializable {
     Forecast getWeatherDay(int day);
 
     /**
-     * Get the period given the weather's kind (DROUGHT|RAIN|SUNNY|OPTIMUM) which contains the quantity of days
+     * Get the period given the weather's kind (DROUGHT|RAIN|OPTIMUM|UNKNOWN) which contains the quantity of days
      * @param weather
      * @return Period object
      */

@@ -15,17 +15,12 @@ public class ForecastController {
     private ForecastService forecastService;
 
     /**
-     * Show as string how many endpoints are available in the application
+     * Show as string to welcome
      * @return String
      */
     @GetMapping("/")
     String initial() {
-        return "<strong>Endpoints available:</strong><br/>" +
-                "- https://galaxy-forecast-rmartini.herokuapp.com/weather/{day}<br/>" +
-                "&nbsp; &nbsp; &nbsp; - <i>Param {day} must be between 0 and 3649</i> <br/><br/>" +
-                "- https://galaxy-forecast-rmartini.herokuapp.com/periods/{weather}<br/>" +
-                "&nbsp; &nbsp; &nbsp; - <i>Param {weather} values allowed (DROUGHT, RAIN, SUNNY, OPTIMUM)</i> <br/><br/>" +
-                "- https://galaxy-forecast-rmartini.herokuapp.com/peakrain";
+        return "Welcome to Galaxy Weather Forecast";
     }
 
     /**
@@ -44,7 +39,7 @@ public class ForecastController {
     }
 
     /**
-     * Resource that return the period given the weather's kind (DROUGHT|RAIN|SUNNY|OPTIMUM) which contains the quantity of days
+     * Resource that return the period given the weather's kind (DROUGHT|RAIN|OPTIMUM|UNKNOWN) which contains the quantity of days
      * URL http://[domain]:[port]/periods/{weather}
      * @param kind
      * @return Period object
